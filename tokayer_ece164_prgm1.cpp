@@ -30,21 +30,32 @@ void outputstrm( fstream *output ){
 // base class to provide singly-linked list functionality
 template <typename T>
 class SimpleList{
+	private:
+		struct Node;
 	protected:
 		void push_front( const T & x ) // method to push at front of list
 		void push_back( const T & x ) // method to push at back of list
 		T pop( ) //method to pop from the front of a list always from front
 }
 
-// stack as a derived class template
+// nested Node class for SimpleList
+
+// stack as a derived class of SimpleList
 template <typename T>
 class Stack: public SimpleList{
-
+		string name;
+	public:
+		Stack( string nn ){ // Stack constructor
+		 this.name = nn;
+		}
 }
 
 // queue as a derived class template
 template <typename T>
 class Queue: public SimpleList{
+		string name;
+	public:
+		Queue(); // Queue contructor
 
 }
 
