@@ -53,7 +53,11 @@ class SimpleList{
 			back = newnode;
 		}
 		T pop( ){ //method to pop from the front of a list and return value
-		
+			T tmp1 = front.data;
+			Node *tmp2 = front.next;
+			delete front;
+			front = ptr;
+			return data;
 		}
 }
 
