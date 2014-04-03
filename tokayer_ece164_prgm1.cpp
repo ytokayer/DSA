@@ -52,7 +52,7 @@ class SimpleList{
 			Node *newnode = new Node( x );
 			back = newnode;
 		}
-		T pop( ){ //method to pop from the front of a list and return value
+		T pop_front( ){ //method to pop from the front of a list and return value
 			T tmp1 = front.data;
 			Node *tmp2 = front.next;
 			delete front;
@@ -74,8 +74,14 @@ class Stack: public SimpleList{
 template <typename T>
 class Queue: public SimpleList{
 	public:
-		Queue( string nn );{ // Queue contructor
+		Queue( string nn ){ // Queue contructor
 			this.name = nn;
+		}
+		void push( const T & x){
+			push_back( x );
+		}
+		T pop(){
+			pop_front();
 		}
 }
 
