@@ -44,20 +44,25 @@ class SimpleList{
 		Node *back;
 		
 	protected:
-		void push_front( const T & x ){ // method to push at front of list
+		virtual void push_front( const T & x ){ // method to push at front of list
 			Node *newnode =	new Node( x, front );
 			front = newnode;
 		}
-		void push_back( const T & x ){ // method to push at back of list
+		virtual void push_back( const T & x ){ // method to push at back of list
 			Node *newnode = new Node( x );
 			back = newnode;
 		}
-		T pop_front( ){ //method to pop from the front of a list and return value
+		virtual T pop_front( ){ //method to pop from the front of a list and return value
 			T tmp1 = front.data;
 			Node *tmp2 = front.next;
 			delete front;
 			front = ptr;
 			return data;
+		}
+	
+	public:
+		string name( const SimpleList & nn ){
+			return 
 		}
 }
 
@@ -68,9 +73,16 @@ class Stack: public SimpleList{
 		Stack( string nn ){ // Stack constructor
 			this.name = nn;
 		}
+		void push( const T & x){
+			push_front( x );
+		}
+		T pop(){
+			pop_front();
+		}
+
 }
 
-// queue as a derived class template
+// queue as a derived class of SimpleList
 template <typename T>
 class Queue: public SimpleList{
 	public:
