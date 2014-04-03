@@ -31,32 +31,48 @@ void outputstrm( fstream *output ){
 template <typename T>
 class SimpleList{
 	private:
-		struct Node;
+		struct Node{ // nested Node class for SimpleList
+			T data; // Node data members
+			Node *next;
+			
+			Node( const T & d, Node *n = NULL ) // Node constructor
+				: data( d ), next( n ) {}
+		}
+		
+		string name;
+		Node *front; // pointers to front and back of list
+		Node *back;
+		
 	protected:
-		void push_front( const T & x ) // method to push at front of list
-		void push_back( const T & x ) // method to push at back of list
-		T pop( ) //method to pop from the front of a list always from front
+		void push_front( const T & x ){ // method to push at front of list
+			Node *newnode =	new Node( x, front );
+			front = newnode;
+		}
+		void push_back( const T & x ){ // method to push at back of list
+			Node *newnode = new Node( x );
+			back = newnode;
+		}
+		T pop( ){ //method to pop from the front of a list and return value
+		
+		}
 }
-
-// nested Node class for SimpleList
 
 // stack as a derived class of SimpleList
 template <typename T>
 class Stack: public SimpleList{
-		string name;
 	public:
 		Stack( string nn ){ // Stack constructor
-		 this.name = nn;
+			this.name = nn;
 		}
 }
 
 // queue as a derived class template
 template <typename T>
 class Queue: public SimpleList{
-		string name;
 	public:
-		Queue(); // Queue contructor
-
+		Queue( string nn );{ // Queue contructor
+			this.name = nn;
+		}
 }
 
 
