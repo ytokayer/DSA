@@ -130,7 +130,9 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 	string lname; // name of list to be modified
 	iss >> lname;
 	if ( cmd == "create" ) { // for create command
-		if ( lname[1] == 'i' ){	// list to be created is of int type
+output << "determined " << cmd << endl; //TEMPORARY
+		if ( lname[0] == 'i' ){	// list to be created is of int type
+output << "determined integer" << endl; //TEMPORARY
 			if ( findlist( lname, ilist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of integers a stack or a queue
 				iss >> spec;
@@ -147,7 +149,8 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				output << "ERROR: This name already exists!" << '\n';
 		}
 
-		else if ( lname[1] == 'd' ){ // list to be created is of double type
+		else if ( lname[0] == 'd' ){ // list to be created is of double type
+output << "determined double" << endl; //TEMPORARY
 			if ( findlist( lname, dlist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of strings a stack or a queue
 				iss >> spec;
@@ -164,7 +167,8 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				output << "ERROR: This name already exists!" << '\n';
 		}
 
-		else if ( lname[1] == 's' ){ // list to be created is of string type
+		else if ( lname[0] == 's' ){ // list to be created is of string type
+output << "determined string" << endl; //TEMPORARY
 			if ( findlist( lname, slist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of strings a stack or a queue?
 				iss >> spec;
@@ -183,7 +187,8 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 	}
 	
 	else if ( cmd == "push" ) { // for push command
-		if ( lname[1] == 'i' ){	// data to be pushed is of int type
+		output << "determined " << cmd << endl; //TEMPORARY
+		if ( lname[0] == 'i' ){	// data to be pushed is of int type
 			SimpleList<int> *lptr;
 			lptr = findlist( lname, ilist );
 			if ( lptr == NULL ) // name doesn't exist
@@ -194,7 +199,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				lptr->push( pushdata );
 			}
 		}
-		else if ( lname[1] == 'd' ){	// data to be pushed is of double type
+		else if ( lname[0]== 'd' ){	// data to be pushed is of double type
 			SimpleList<double> *lptr;			
 			lptr = findlist( lname, dlist );
 			if ( lptr == NULL ) // name doesn't exist
@@ -205,7 +210,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				lptr->push( pushdata );
 			}
 		}
-		else if ( lname[1] == 's' ){	// data to be pushed is of string type
+		else if ( lname[0] == 's' ){	// data to be pushed is of string type
 			SimpleList<string> *lptr;			
 			lptr = findlist( lname, slist );
 			if ( lptr == NULL ) // name doesn't exist
@@ -219,7 +224,8 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 	}
 
 	else if ( cmd == "pop" ) { // for pop command
-		if ( lname[1] == 'i' ){ // list to be popped contains ints
+		output << "determined " << cmd << endl; //TEMPORARY
+		if ( lname[0] == 'i' ){ // list to be popped contains ints
 			SimpleList<int> *lptr = findlist( lname, ilist );
 			if ( lptr == NULL ) // name doesn't exist
 				output << "ERROR: This name does not exist!" << '\n';
@@ -233,7 +239,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 		}
-		else if ( lname[1] == 'd' ){ // list to be popped contains doubles
+		else if ( lname[0] == 'd' ){ // list to be popped contains doubles
 			SimpleList<double> *lptr = findlist( lname, dlist );
 			if ( lptr == NULL ) // name doesn't exist
 				output << "ERROR: This name does not exist!" << '\n';
@@ -247,7 +253,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 		}
-		else if ( lname[1] == 's' ){ // list to be popped contains strings
+		else if ( lname[0] == 's' ){ // list to be popped contains strings
 			SimpleList<string> *lptr = findlist( lname, slist );
 			if ( lptr == NULL ) // name doesn't exist
 				output << "ERROR: This name does not exist!" << '\n';
@@ -277,12 +283,12 @@ int main()
 	list<SimpleList<double> *> listSLd; // all double stacks and queues
 	list<SimpleList<string> *> listSLs; // all string stacks and queues
 	
-	int i = 1;
 	string currline; // string containing current line
-	output << "PROCESSING COMMAND: " << currline << '\n';
-	while( getline (input, currline) ) // test for existence of line
+	while( getline (input, currline) ){ // test for existence of line
+		output << "PROCESSING COMMAND: " << currline << '\n';
 		procline( currline, listSLi, listSLd, listSLs, output );
-	
+	}
+
 	// close input and output streams
 	input.close();
 	output.close();
