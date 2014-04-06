@@ -114,7 +114,7 @@ class Queue: public SimpleList<T>{
 // function to find list with given name
 template <typename T>
 SimpleList<T>* findlist( const string & lname, list<SimpleList<T> *> & Tlist){
-	//typename list<SimpleList<T> *>::iterator SLp
+	typename list<SimpleList<T> *>::iterator SLp;
 	for (SLp = Tlist.begin(); SLp != Tlist.end(); ++SLp ){ // check for valid name
 		if ( (*SLp)->getname() == lname );
 			return *SLp;
