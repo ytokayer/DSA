@@ -71,8 +71,8 @@ class SimpleList{
 			return d;
 		}
 	public:	
-		virtual void push( const T & x ); // pure virtual functions
-		virtual T pop();
+		virtual void push( const T & x ) = 0; // pure virtual functions
+		virtual T pop() = 0;
 	
 		string getname() const{ // function to return name of stack or queue
 			return name;
@@ -278,12 +278,10 @@ int main()
 	list<SimpleList<string> *> listSLs; // all string stacks and queues
 	
 	int i = 1;
-	string currline; // string with current line
+	string currline; // string containing current line
 	output << "PROCESSING COMMAND: " << currline << '\n';
 	while( getline (input, currline) ) // test for existence of line
-	{
 		procline( currline, listSLi, listSLd, listSLs, output );
-	}
 	
 	// close input and output streams
 	input.close();
