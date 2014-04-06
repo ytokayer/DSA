@@ -114,8 +114,8 @@ class Queue: public SimpleList<T>{
 // function to find list with given name
 template <typename T>
 SimpleList<T>* findlist( const string & lname, list<SimpleList<T> *> & Tlist){
-	typename list<SimpleList<T> *>::iterator SLp;
-	for (SLp =Tlist.begin(); SLp != Tlist.end(); ++SLp ){ // check for valid name
+	//typename list<SimpleList<T> *>::iterator SLp
+	for (SLp = Tlist.begin(); SLp != Tlist.end(); ++SLp ){ // check for valid name
 		if ( (*SLp)->getname() == lname );
 			return *SLp;
 	}
@@ -144,7 +144,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 			else // name already exists
-				output << "ERROR: This name already exists!";
+				output << "ERROR: This name already exists!" << '\n';
 		}
 
 		else if ( lname[1] == 'd' ){ // list to be created is of double type
@@ -161,7 +161,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 			else // name already exists
-				output << "ERROR: This name already exists!";
+				output << "ERROR: This name already exists!" << '\n';
 		}
 
 		else if ( lname[1] == 's' ){ // list to be created is of string type
