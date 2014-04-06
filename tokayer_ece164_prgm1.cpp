@@ -50,7 +50,7 @@ class SimpleList{
 			name = nn;
 			front = NULL;
 			back = NULL;
-			}
+		}
 		void push_front( const T & x ){ // method to push at front of list
 			Node *newnode =	new Node( x, front );
 			front = newnode;
@@ -130,9 +130,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 	string lname; // name of list to be modified
 	iss >> lname;
 	if ( cmd == "create" ) { // for create command
-output << "determined " << cmd << endl; //TEMPORARY
 		if ( lname[0] == 'i' ){	// list to be created is of int type
-output << "determined integer" << endl; //TEMPORARY
 			if ( findlist( lname, ilist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of integers a stack or a queue
 				iss >> spec;
@@ -150,7 +148,6 @@ output << "determined integer" << endl; //TEMPORARY
 		}
 
 		else if ( lname[0] == 'd' ){ // list to be created is of double type
-output << "determined double" << endl; //TEMPORARY
 			if ( findlist( lname, dlist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of strings a stack or a queue
 				iss >> spec;
@@ -168,7 +165,6 @@ output << "determined double" << endl; //TEMPORARY
 		}
 
 		else if ( lname[0] == 's' ){ // list to be created is of string type
-output << "determined string" << endl; //TEMPORARY
 			if ( findlist( lname, slist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of strings a stack or a queue?
 				iss >> spec;
@@ -187,7 +183,6 @@ output << "determined string" << endl; //TEMPORARY
 	}
 	
 	else if ( cmd == "push" ) { // for push command
-		output << "determined " << cmd << endl; //TEMPORARY
 		if ( lname[0] == 'i' ){	// data to be pushed is of int type
 			SimpleList<int> *lptr;
 			lptr = findlist( lname, ilist );
@@ -224,7 +219,7 @@ output << "determined string" << endl; //TEMPORARY
 	}
 
 	else if ( cmd == "pop" ) { // for pop command
-		output << "determined " << cmd << endl; //TEMPORARY
+output << "determined " << cmd << endl; //TEMPORARY
 		if ( lname[0] == 'i' ){ // list to be popped contains ints
 			SimpleList<int> *lptr = findlist( lname, ilist );
 			if ( lptr == NULL ) // name doesn't exist
@@ -254,15 +249,20 @@ output << "determined string" << endl; //TEMPORARY
 			}
 		}
 		else if ( lname[0] == 's' ){ // list to be popped contains strings
+output << "determined string" << endl;
 			SimpleList<string> *lptr = findlist( lname, slist );
-			if ( lptr == NULL ) // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';
+			if ( lptr == NULL ){ // name doesn't exist
+				output << "ERROR: This name does not exist!" << '\n';}
 			else{ // name exists
-				if ( lptr->isempty() )// list is empty
-					output << "ERROR: This list is empty!" << '\n';
+output << "I realize name exists" << endl;
+				if ( lptr->isempty() ){// list is empty
+					output << "ERROR: This list is empty!" << '\n';}
 				else{
+output << "I realize that list is not empty" << endl;
 					string val;
+output << "I decalred the val as a string" << endl;
 					val = lptr->pop();
+output << "I even popped" << endl;
 					output << "Value popped: " << val << '\n';
 				}
 			}
