@@ -70,7 +70,7 @@ class SimpleList{
 			front = p;
 			return d;
 		}
-	public:	
+	public:
 		virtual void push( const T & x ) = 0; // pure virtual functions
 		virtual T pop() = 0;
 	
@@ -131,7 +131,6 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 	iss >> lname;
 	if ( cmd == "create" ) { // for create command
 		if ( lname[0] == 'i' ){	// list to be created is of int type
-output << "I realize that I need to create a list of ints with name " << lname << endl; //TEMPORARY
 			if ( findlist( lname, ilist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of integers a stack or a queue
 				iss >> spec;
@@ -144,9 +143,8 @@ output << "I realize that I need to create a list of ints with name " << lname <
 					ilist.push_front( newst );
 				}
 			}
-			else{ // name already exists
-output << "result of findlist is " << findlist( lname, ilist ) << endl;
-				output << "ERROR: This name already exists!" << '\n';}
+			else // name already exists
+				output << "ERROR: This name already exists!" << '\n';
 		}
 
 		else if ( lname[0] == 'd' ){ // list to be created is of double type
@@ -221,7 +219,6 @@ output << "result of findlist is " << findlist( lname, ilist ) << endl;
 	}
 
 	else if ( cmd == "pop" ) { // for pop command
-output << "determined " << cmd << endl; //TEMPORARY
 		if ( lname[0] == 'i' ){ // list to be popped contains ints
 			SimpleList<int> *lptr = findlist( lname, ilist );
 			if ( lptr == NULL ) // name doesn't exist
@@ -260,11 +257,10 @@ output << "I realize name exists" << endl;
 				if ( lptr->isempty() ){// list is empty
 					output << "ERROR: This list is empty!" << '\n';}
 				else{
-output << "I realize that list is not empty" << endl;
+output << "I realize that list named " << lptr->getname() << " is not empty" << endl;
 					//string val;
-output << "I declared the val as a string" << endl;
 					//val = lptr->pop();
-output << "I popped the value "<< lptr->pop() << " from the list named " << lptr->getname() << endl;
+output << "I popped the value "<< lptr->pop().c_str() << " from the list named " << lptr->getname() << endl;
 					//output << "Value popped: " << val << '\n';
 				}
 			}
@@ -274,6 +270,7 @@ output << "I popped the value "<< lptr->pop() << " from the list named " << lptr
 
 int main()
 {
+/*
 	fstream input; // create input stream
 	inputstrm( &input );
 	
@@ -287,19 +284,26 @@ int main()
 	
 	string currline; // string containing current line
 	while( getline (input, currline) ){ // test for existence of line
-		typename list<SimpleList<int> *>::iterator SLp;
-		output << "members of list of integer lists are: ";
-		for (SLp = listSLi.begin(); SLp != listSLi.end(); ++SLp )
+		typename list<SimpleList<string> *>::iterator SLp;
+		output << "members of list of string lists are: ";
+		for (SLp = listSLs.begin(); SLp != listSLs.end(); ++SLp )
 			output << (*SLp)->getname() << " ";
 		output << '\n';
 
 		output << endl << "PROCESSING COMMAND: " << currline << '\n';
 		procline( currline, listSLi, listSLd, listSLs, output );
 	}
+*/
+	string zeh = "d2";
+	SimpleList<string>* newst = new Stack<string>( zeh );
+	newst->push( "shvartzes in the club" );
+	string data;
+	data = newst->pop();
+	cout << "popped value is: " << data << endl;
 
 	// close input and output streams
-	input.close();
-	output.close();
+	// input.close();
+	// output.close();
 	
 	return 0;
 }
