@@ -25,8 +25,8 @@ void inputstrm (fstream *input){
 void outputstrm( fstream *output ){
 	string outfile;
 	cout << "Enter name of output file: ";
-	cin >> outfile;
-	output->open(outfile.c_str(), ios::out);
+	cin >> outfile;	
+	output->open(outfile.c_str(), ios::binary | ios::out);
 }
 
 // base class to provide singly-linked list functionality
@@ -54,14 +54,16 @@ class SimpleList{
 		void push_front( const T & x ){ // method to push at front of list
 			Node *newnode =	new Node( x, front );
 			front = newnode;
-			if ( isempty() ) // list is empty
+			if ( isempty() ) // if list is empty, assign back
 				back = newnode;
 		}
 		void push_back( const T & x ){ // method to push at back of list
 			Node *newnode = new Node( x );
-			back = newnode;
-			if( isempty() ) // list is empty
+			if( isempty() ) // if list is empty, assign front
 				front = newnode;
+			else // if list is nonempty, update the "next" pointer of previous node
+				back->next = newnode;
+			back = newnode;
 		}
 		T pop_front( ){ //method to pop from the front of a list and return value
 			T d = front->data;
@@ -143,7 +145,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 			else // name already exists
-				output << "ERROR: This name already exists!" << '\n';
+				output << "ERROR: This name already exists!" << endl;
 		}
 
 		else if ( lname[0] == 'd' ){ // list to be created is of double type
@@ -160,7 +162,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 			else // name already exists
-				output << "ERROR: This name already exists!" << '\n';
+				output << "ERROR: This name already exists!" << endl;
 		}
 
 		else if ( lname[0] == 's' ){ // list to be created is of string type
@@ -177,7 +179,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 				}
 			}
 			else // name already exists
-				output << "ERROR: This name already exists!" << '\n';
+				output << "ERROR: This name already exists!" << endl;
 		}
 	}
 	
@@ -186,7 +188,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 			SimpleList<int> *lptr;
 			lptr = findlist( lname, ilist );
 			if ( lptr == NULL ) // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';
+				output << "ERROR: This name does not exist!" << endl;
 			else{ // name exists
 				int pushdata;
 				iss >> pushdata;
@@ -197,7 +199,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 			SimpleList<double> *lptr;			
 			lptr = findlist( lname, dlist );
 			if ( lptr == NULL ) // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';
+				output << "ERROR: This name does not exist!" << endl;
 			else{ // name exists
 				double pushdata;
 				iss >> pushdata;
@@ -208,7 +210,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 			SimpleList<string> *lptr;			
 			lptr = findlist( lname, slist );
 			if ( lptr == NULL ) // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';
+				output << "ERROR: This name does not exist!" << endl;
 			else{ // name exists
 				string pushdata;
 				iss >> pushdata;
@@ -221,42 +223,42 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 		if ( lname[0] == 'i' ){ // list to be popped contains ints
 			SimpleList<int> *lptr = findlist( lname, ilist );
 			if ( lptr == NULL ) // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';
+				output << "ERROR: This name does not exist!" << endl;
 			else{ // name exists
 				if ( lptr->isempty() )// list is empty
-					output << "ERROR: This list is empty!" << '\n';
+					output << "ERROR: This list is empty!" << endl;
 				else{
 					int val;
 					val = lptr->pop();
-					output << "Value popped: " << val << '\n';
+					output << "Value popped: " << val << endl;
 				}
 			}
 		}
 		else if ( lname[0] == 'd' ){ // list to be popped contains doubles
 			SimpleList<double> *lptr = findlist( lname, dlist );
 			if ( lptr == NULL ) // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';
+				output << "ERROR: This name does not exist!" << endl;
 			else{ // name exists
 				if ( lptr->isempty() )// list is empty
-					output << "ERROR: This list is empty!" << '\n';
+					output << "ERROR: This list is empty!" << endl;
 				else{
 					double val;
 					val = lptr->pop();
-					output << "Value popped: " << val << '\n';
+					output << "Value popped: " << val << endl;
 				}
 			}
 		}
 		else if ( lname[0] == 's' ){ // list to be popped contains strings
 			SimpleList<string> *lptr = findlist( lname, slist );
 			if ( lptr == NULL ){ // name doesn't exist
-				output << "ERROR: This name does not exist!" << '\n';}
+				output << "ERROR: This name does not exist!" << endl;}
 			else{ // name exists
 				if ( lptr->isempty() ){// list is empty
-					output << "ERROR: This list is empty!" << '\n';}
+					output << "ERROR: This list is empty!" << endl;}
 				else{
 					string val;
 					val = lptr->pop();
-					output << "Value popped: " << val << '\n';
+					output << "Value popped: " << val << endl;
 				}
 			}
 		}
@@ -278,7 +280,7 @@ int main()
 	
 	string currline; // string containing current line
 	while( getline (input, currline) ){ // test for existence of line
-		output << "PROCESSING COMMAND: " << currline << '\n';
+		output << "PROCESSING COMMAND: " << currline << endl;
 		procline( currline, listSLi, listSLd, listSLs, output );
 	}
 
