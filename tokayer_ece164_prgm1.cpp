@@ -92,9 +92,8 @@ class Stack: public SimpleList<T>{
 			SimpleList<T>::push_front( x );
 		}
 		T pop(){
-			SimpleList<T>::pop_front();
+			return SimpleList<T>::pop_front();
 		}
-
 };
 
 // queue as a derived class of SimpleList
@@ -107,7 +106,7 @@ class Queue: public SimpleList<T>{
 			SimpleList<T>::push_back( x );
 		}
 		T pop(){
-			SimpleList<T>::pop_front();
+			return SimpleList<T>::pop_front();
 		}
 };
 
@@ -248,20 +247,16 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 			}
 		}
 		else if ( lname[0] == 's' ){ // list to be popped contains strings
-output << "determined string" << endl;
 			SimpleList<string> *lptr = findlist( lname, slist );
 			if ( lptr == NULL ){ // name doesn't exist
 				output << "ERROR: This name does not exist!" << '\n';}
 			else{ // name exists
-output << "I realize name exists" << endl;
 				if ( lptr->isempty() ){// list is empty
 					output << "ERROR: This list is empty!" << '\n';}
 				else{
-output << "I realize that list named " << lptr->getname() << " is not empty" << endl;
-					//string val;
-					//val = lptr->pop();
-output << "I popped the value "<< lptr->pop().c_str() << " from the list named " << lptr->getname() << endl;
-					//output << "Value popped: " << val << '\n';
+					string val;
+					val = lptr->pop();
+					output << "Value popped: " << val << '\n';
 				}
 			}
 		}
@@ -270,7 +265,6 @@ output << "I popped the value "<< lptr->pop().c_str() << " from the list named "
 
 int main()
 {
-/*
 	fstream input; // create input stream
 	inputstrm( &input );
 	
@@ -284,26 +278,13 @@ int main()
 	
 	string currline; // string containing current line
 	while( getline (input, currline) ){ // test for existence of line
-		typename list<SimpleList<string> *>::iterator SLp;
-		output << "members of list of string lists are: ";
-		for (SLp = listSLs.begin(); SLp != listSLs.end(); ++SLp )
-			output << (*SLp)->getname() << " ";
-		output << '\n';
-
-		output << endl << "PROCESSING COMMAND: " << currline << '\n';
+		output << "PROCESSING COMMAND: " << currline << '\n';
 		procline( currline, listSLi, listSLd, listSLs, output );
 	}
-*/
-	string zeh = "d2";
-	SimpleList<string>* newst = new Stack<string>( zeh );
-	newst->push( "shvartzes in the club" );
-	string data;
-	data = newst->pop();
-	cout << "popped value is: " << data << endl;
 
 	// close input and output streams
-	// input.close();
-	// output.close();
+	input.close();
+	output.close();
 	
 	return 0;
 }
