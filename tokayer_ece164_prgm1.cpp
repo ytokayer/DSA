@@ -3,7 +3,7 @@ Yaron Tokayer
 DSA Programming Assignment 1
 
 Follows commands from an input file to create and modify stacks and queues.
-Records runtime to output file.
+Records runtime operations to output file.
 */
 
 #include <iostream>
