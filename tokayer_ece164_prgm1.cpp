@@ -116,7 +116,7 @@ template <typename T>
 SimpleList<T>* findlist( const string & lname, list<SimpleList<T> *> & Tlist){
 	typename list<SimpleList<T> *>::iterator SLp;
 	for (SLp = Tlist.begin(); SLp != Tlist.end(); ++SLp ){ // check for valid name
-		if ( (*SLp)->getname() == lname );
+		if ( (*SLp)->getname() == lname )
 			return *SLp;
 	}
 	return NULL; // if name doesn't exist, return pointer to NULL
@@ -131,6 +131,7 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 	iss >> lname;
 	if ( cmd == "create" ) { // for create command
 		if ( lname[0] == 'i' ){	// list to be created is of int type
+output << "I realize that I need to create a list of ints with name " << lname << endl; //TEMPORARY
 			if ( findlist( lname, ilist ) == NULL ){ // name doesn't already exist
 				string spec; // is list of integers a stack or a queue
 				iss >> spec;
@@ -143,8 +144,9 @@ void procline( const string & ll, list<SimpleList<int> *> & ilist, list<SimpleLi
 					ilist.push_front( newst );
 				}
 			}
-			else // name already exists
-				output << "ERROR: This name already exists!" << '\n';
+			else{ // name already exists
+output << "result of findlist is " << findlist( lname, ilist ) << endl;
+				output << "ERROR: This name already exists!" << '\n';}
 		}
 
 		else if ( lname[0] == 'd' ){ // list to be created is of double type
@@ -259,11 +261,11 @@ output << "I realize name exists" << endl;
 					output << "ERROR: This list is empty!" << '\n';}
 				else{
 output << "I realize that list is not empty" << endl;
-					string val;
-output << "I decalred the val as a string" << endl;
-					val = lptr->pop();
-output << "I even popped" << endl;
-					output << "Value popped: " << val << '\n';
+					//string val;
+output << "I declared the val as a string" << endl;
+					//val = lptr->pop();
+output << "I popped the value "<< lptr->pop() << " from the list named " << lptr->getname() << endl;
+					//output << "Value popped: " << val << '\n';
 				}
 			}
 		}
@@ -285,7 +287,13 @@ int main()
 	
 	string currline; // string containing current line
 	while( getline (input, currline) ){ // test for existence of line
-		output << "PROCESSING COMMAND: " << currline << '\n';
+		typename list<SimpleList<int> *>::iterator SLp;
+		output << "members of list of integer lists are: ";
+		for (SLp = listSLi.begin(); SLp != listSLi.end(); ++SLp )
+			output << (*SLp)->getname() << " ";
+		output << '\n';
+
+		output << endl << "PROCESSING COMMAND: " << currline << '\n';
 		procline( currline, listSLi, listSLd, listSLs, output );
 	}
 
