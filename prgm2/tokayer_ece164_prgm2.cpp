@@ -110,7 +110,7 @@ Sorts numbers given by 4 types of input files
 */
 
 // global variables and function declarations
-int c;
+int c; int ii;
 
 int determineCase( list<Data *> & l );
 std::list<Data *>::iterator frst;
@@ -119,11 +119,20 @@ string frstDat, scndDat;
 
 bool comparestr (const Data * first, const Data * second);
 
-void addLeadingZeroes( list<Data *> & l, const int c );
-std::list<Data *>::iterator it;
-string strDat; int missZeroes; int ii; int cc;
+void buckIt ( list<Data *> & l, const int c );
+list<Data *> buck1; list<Data *> buck2; // buckets
+list<Data *> buck3; list<Data *> buck10; //less than 1 in mil chance of having to use buckets 4-9
+list<Data *> buck11; list<Data *> buck12;
+list<Data *> buck13; list<Data *> buck14;
+list<Data *> buck15; list<Data *> buck16;
+list<Data *> buck17; list<Data *> buck18;
+list<Data *> buck19; list<Data *> buck20;
+list<Data *> * currbuck[20]; // array of pointers to buckets
+int pos;
 
-void remLeadingZeroes( list<Data *> & l, const int c );
+void sortBuckets( const int c );
+
+void mergeBuckets( list<Data *> & l, const int c );
 
 // function to determine data case
 int determineCase( list<Data *> & l ){
@@ -145,35 +154,54 @@ int determineCase( list<Data *> & l ){
 	else return 2;
 }
 
+// compare function to compare strings representing numbers with same
+// number of digits to left of decimal
 bool comparestr (const Data * first, const Data * second){
 	return (((first)->data)<((second)->data));
   }
 
-void addLeadingZeroes( list<Data *> & l, const int c ){
-	if ( c == 1 || c == 2 )
-		cc = 20;
-	else
-		cc = 3;
-	for ( it=l.begin(); it != l.end(); ++it){
-		strDat = (*it)->data;
-		missZeroes = cc - strDat.find("."); // number of zeroes to add
-		for ( ii = missZeroes; ii != 0; --ii )
-			(*it)->data = "0" + (*it)->data; // add appropriate # of 0's
+// divide list into buckets based on how many digits to left of decimal
+void buckIt ( list<Data *> & l, const int c ){
+	if ( c != 3 ){ // will only need lower buckets for case 3
+		currbuck[9] = &buck10; currbuck[10] = &buck11;
+		currbuck[11] = &buck12; currbuck[12] = &buck13;
+		currbuck[13] = &buck14; currbuck[14] = &buck15;
+		currbuck[15] = &buck16;	currbuck[16] = &buck17;
+		currbuck[17] = &buck18; currbuck[18] = &buck19;
+		currbuck[19] = &buck20;
+	}
+	else{ // no need for higher buckets in case 3
+		currbuck[0] = &buck1; currbuck[1] = &buck2;
+		currbuck[2] = &buck3;
+	}
+	
+	while ( l.begin() != l.end()){
+		pos = (*(l.begin()))->data.find("."); // position of decimal
+		currbuck[(pos - 1)]->splice( currbuck[(pos - 1)]->begin(), l, l.begin() );
 	}
 }
 
-void remLeadingZeroes( list<Data *> & l, const int c ){
-	if ( c == 1 || c == 2 ){
-		for ( it=l.begin(); it != l.end(); ++it){
-			while( (*it)->data[0] == 48 ) // remove appropriate number of zeroes
-				(*it)->data.erase((*it)->data.begin());
-		}
+void sortBuckets( const int c ){
+	if ( c != 3 ){
+		for ( ii = 9; ii < 20 ; ++ii )
+			currbuck[ii]->sort( comparestr );
 	}
 	else{
-		for ( it=l.begin(); it != l.end(); ++it){
-			while( (*it)->data[0] == 48 && (*it)->data[1] != 46 ) // remove appropriate number of zeroes
-				(*it)->data.erase((*it)->data.begin());
-		}
+		for ( ii = 0; ii < 3 ; ++ii )
+			currbuck[ii]->sort( comparestr );
+	}
+}
+
+void mergeBuckets( list<Data *> & l, const int c ){
+	if ( c != 3 ){
+		for ( ii = 18; ii > 8 ; --ii )
+			currbuck[19]->splice( currbuck[19]->begin(), *currbuck[ii] );
+		l = *currbuck[19];
+	}
+	else{
+		for ( ii = 1; ii >= 0 ; --ii )
+			currbuck[2]->splice( currbuck[2]->begin(), *currbuck[ii] );
+		l = *currbuck[2];
 	}
 }
 
@@ -181,9 +209,9 @@ void sortDataList( list<Data *> & l ) {
 	c = determineCase(l); //determine which case
 	
 	if ( c != 4){
-		addLeadingZeroes( l, c );
-		l.sort(comparestr);
-		remLeadingZeroes( l, c );
+		buckIt( l, c );
+		sortBuckets( c );
+		mergeBuckets( l, c );
 	}
 	
 	else
