@@ -110,16 +110,21 @@ Sorts numbers given by 4 types of input files
 */
 
 // global variables and function declarations
+float fastStr2flt( const char * p );
+float r; float f;  int n;
+
+int determineCase( list<Data *> & l );
 std::list<Data *>::iterator frst;
 std::list<Data *>::iterator scnd;
 string frstDat, scndDat;
+
 bool compare_nocase (const Data * first, const Data * second);
 
 // fast string2float conversion (naive, but fast)
 // things pertaining to negative numbers commented out
 // source: http://tinodidriksen.com/uploads/code/cpp/speed-string-to-double.cpp
 float fastStr2flt( const char * p ) {
-    float r = 0.0;
+    r = 0.0;
     // bool neg = false;
     // if (*p == '-') {
     //     neg = true;
@@ -130,8 +135,8 @@ float fastStr2flt( const char * p ) {
         ++p;
     }
     if (*p == '.') {
-        float f = 0.0;
-        int n = 0;
+        f = 0.0;
+        n = 0;
         ++p;
         while (*p >= '0' && *p <= '9') {
             f = (f*10.0) + (*p - '0');
@@ -162,25 +167,22 @@ int determineCase( list<Data *> & l ){
 			return 3;
 	}
 
-	if ( frstDat[0] == scndDat[0] && frstDat[1] == scndDat[1] && frstDat[2] == scndDat[2] && frstDat[3] == scndDat[3] && frstDat[4] == scndDat[4] && frstDat[5] == scndDat[5] && frstDat[6] == scndDat[6] )
-		return 4;
-	
 	if ( strcmp ( frstDat.substr(0,6).c_str(), scndDat.substr(0,6).c_str() ) == 0)
 	 	return 4;
 
 	else return 2;
 }
 
-// comparison function to be used with list class's sort
-bool compare_nocase (const Data * first, const Data * second){
+// comparison function to be used with built-in sorts
+bool compare (const Data * first, const Data * second){
 	if (((first)->data)<((second)->data)) return true;
 	else if (((first)->data)>((second)->data)) return false;
 }
 
 void sortDataList( list<Data *> & l ) {
 	
-	int c = determineCase(l); //determine which case
+	// int c = determineCase(l); //determine which case
 	
 	// test out sort provided by list class
-	l.sort();
+	l.sort(compare);
 }
