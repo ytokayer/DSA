@@ -175,8 +175,7 @@ int determineCase( list<Data *> & l ){
 
 // comparison function to be used with built-in sorts
 bool compare (const Data * first, const Data * second){
-	if (((first)->data)<((second)->data)) return true;
-	else if (((first)->data)>((second)->data)) return false;
+	return (((first)->data)<((second)->data));
 }
 
 void sortDataList( list<Data *> & l ) {
