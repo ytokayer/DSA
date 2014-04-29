@@ -119,7 +119,7 @@ string frstDat, scndDat;
 
 bool comparestr (const Data * first, const Data * second);
 
-void buckIt ( list<Data *> & l, const int c );
+// void buckIt ( list<Data *> & l, const int c );
 list<Data *> buck1; list<Data *> buck2; // buckets
 list<Data *> buck3; list<Data *> buck10; //less than 1 in mil chance of having to use buckets 4-9
 list<Data *> buck11; list<Data *> buck12;
@@ -130,9 +130,11 @@ list<Data *> buck19; list<Data *> buck20;
 list<Data *> * currbuck[20]; // array of pointers to buckets
 int pos;
 
-void sortBuckets( const int c );
+// void sortBuckets( const int c );
 
-void mergeBuckets( list<Data *> & l, const int c );
+// void mergeBuckets( list<Data *> & l, const int c );
+
+void masterBuckets( list<Data *> & l, const int c );
 
 // function to determine data case
 int determineCase( list<Data *> & l ){
@@ -140,8 +142,8 @@ int determineCase( list<Data *> & l ){
 	if ( l.size() < 400000 ) // t1 
 		return 1;
 	
-	frst = l.begin(); // iterator to first element (1st number)
-	scnd = frst; ++frst; // iterator to second element (2st number)
+	frst = l.begin(); // iterator to first element
+	scnd = frst; ++scnd; // iterator to second element
 	frstDat = (*frst)->data;
 	scndDat = (*scnd)->data;
 	
@@ -156,10 +158,12 @@ int determineCase( list<Data *> & l ){
 
 // compare function to compare strings representing numbers with same
 // number of digits to left of decimal
+
 bool comparestr (const Data * first, const Data * second){
 	return (((first)->data)<((second)->data));
   }
 
+/*
 // divide list into buckets based on how many digits to left of decimal
 void buckIt ( list<Data *> & l, const int c ){
 	if ( c != 3 ){ // will only need lower buckets for case 3
@@ -204,16 +208,56 @@ void mergeBuckets( list<Data *> & l, const int c ){
 		l = *currbuck[2];
 	}
 }
+*/
+void masterBuckets( list<Data *> & l, const int c ){
+	if ( c != 3 ){ // will only need lower buckets for case 3
+		currbuck[9] = &buck10; currbuck[10] = &buck11;
+		currbuck[11] = &buck12; currbuck[12] = &buck13;
+		currbuck[13] = &buck14; currbuck[14] = &buck15;
+		currbuck[15] = &buck16;	currbuck[16] = &buck17;
+		currbuck[17] = &buck18; currbuck[18] = &buck19;
+		currbuck[19] = &buck20;
+		
+		while ( l.begin() != l.end()){
+			pos = (*(l.begin()))->data.find("."); // position of decimal
+			currbuck[(pos - 1)]->splice( currbuck[(pos - 1)]->begin(), l, l.begin() );
+		}
+
+		for ( ii = 9; ii < 20 ; ++ii )
+			currbuck[ii]->sort(comparestr);
+			
+		for ( ii = 18; ii > 8 ; --ii )
+			currbuck[19]->splice( currbuck[19]->begin(), *currbuck[ii] );
+		l = *currbuck[19];
+	}
+
+	else{ // no need for higher buckets in case 3
+		currbuck[0] = &buck1; currbuck[1] = &buck2;
+		currbuck[2] = &buck3;
+		
+		while ( l.begin() != l.end()){
+			pos = (*(l.begin()))->data.find("."); // position of decimal
+			currbuck[(pos - 1)]->splice( currbuck[(pos - 1)]->begin(), l, l.begin() );
+		}
+		
+		for ( ii = 0; ii < 3 ; ++ii )
+			currbuck[ii]->sort(comparestr);
+
+		for ( ii = 1; ii >= 0 ; --ii )
+			currbuck[2]->splice( currbuck[2]->begin(), *currbuck[ii] );
+		l = *currbuck[2];
+	}	
+}
 
 void sortDataList( list<Data *> & l ) {
 	c = determineCase(l); //determine which case
 	
 	if ( c != 4){
-		buckIt( l, c );
-		sortBuckets( c );
-		mergeBuckets( l, c );
+		// buckIt( l, c );
+		// sortBuckets( c );
+		masterBuckets( l, c );
 	}
 	
 	else
-		l.sort(comparestr);
+		l.sort();
 }
