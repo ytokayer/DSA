@@ -110,46 +110,20 @@ Sorts numbers given by 4 types of input files
 */
 
 // global variables and function declarations
-float fastStr2flt( const char * p );
-float r; float f;  int n;
+int c;
 
 int determineCase( list<Data *> & l );
 std::list<Data *>::iterator frst;
 std::list<Data *>::iterator scnd;
 string frstDat, scndDat;
 
-bool compare_nocase (const Data * first, const Data * second);
+bool comparestr (const Data * first, const Data * second);
 
-// fast string2float conversion (naive, but fast)
-// things pertaining to negative numbers commented out
-// source: http://tinodidriksen.com/uploads/code/cpp/speed-string-to-double.cpp
-float fastStr2flt( const char * p ) {
-    r = 0.0;
-    // bool neg = false;
-    // if (*p == '-') {
-    //     neg = true;
-    //     ++p;
-    // }
-    while (*p >= '0' && *p <= '9') {
-        r = (r*10.0) + (*p - '0');
-        ++p;
-    }
-    if (*p == '.') {
-        f = 0.0;
-        n = 0;
-        ++p;
-        while (*p >= '0' && *p <= '9') {
-            f = (f*10.0) + (*p - '0');
-            ++p;
-            ++n;
-        }
-        r += f / std::pow(10.0, n);
-    }
-    // if (neg) {
-    //     r = -r;
-    // }
-    return r;
-}
+void addLeadingZeroes( list<Data *> & l, const int c );
+std::list<Data *>::iterator it;
+string strDat; int missZeroes; int ii; int cc;
+
+void remLeadingZeroes( list<Data *> & l, const int c );
 
 // function to determine data case
 int determineCase( list<Data *> & l ){
@@ -171,15 +145,47 @@ int determineCase( list<Data *> & l ){
 	else return 2;
 }
 
-// comparison function to be used with built-in sorts.  converts to float.
-bool compare (const Data * first, const Data * second){
-	return ( fastStr2flt( (first)->data.c_str() ) < fastStr2flt((second)->data.c_str() ) );
+bool comparestr (const Data * first, const Data * second){
+	return (((first)->data)<((second)->data));
+  }
+
+void addLeadingZeroes( list<Data *> & l, const int c ){
+	if ( c == 1 || c == 2 )
+		cc = 20;
+	else
+		cc = 3;
+	for ( it=l.begin(); it != l.end(); ++it){
+		strDat = (*it)->data;
+		missZeroes = cc - strDat.find("."); // number of zeroes to add
+		for ( ii = missZeroes; ii != 0; --ii )
+			(*it)->data = "0" + (*it)->data; // add appropriate # of 0's
+	}
+}
+
+void remLeadingZeroes( list<Data *> & l, const int c ){
+	if ( c == 1 || c == 2 ){
+		for ( it=l.begin(); it != l.end(); ++it){
+			while( (*it)->data[0] == 48 ) // remove appropriate number of zeroes
+				(*it)->data.erase((*it)->data.begin());
+		}
+	}
+	else{
+		for ( it=l.begin(); it != l.end(); ++it){
+			while( (*it)->data[0] == 48 && (*it)->data[1] != 46 ) // remove appropriate number of zeroes
+				(*it)->data.erase((*it)->data.begin());
+		}
+	}
 }
 
 void sortDataList( list<Data *> & l ) {
+	c = determineCase(l); //determine which case
 	
-	// int c = determineCase(l); //determine which case
+	if ( c != 4){
+		addLeadingZeroes( l, c );
+		l.sort(comparestr);
+		remLeadingZeroes( l, c );
+	}
 	
-	// test out sort provided by list class
-	l.sort(compare);
+	else
+		l.sort(comparestr);
 }
