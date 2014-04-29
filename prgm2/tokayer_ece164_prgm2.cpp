@@ -162,20 +162,18 @@ int determineCase( list<Data *> & l ){
 	frstDat = (*frst)->data;
 	scndDat = (*scnd)->data;
 	
-	if ( frstDat.length() < 8 ){
-		if ( scndDat.length() <8 ) // if 2 in a row are 7 or less, can conclude t3
-			return 3;
-	}
+	if ( frstDat.length() < 8 && scndDat.length() <8) 
+			return 3; // if 2 in a row are 7 or less, can conclude t3
 
 	if ( strcmp ( frstDat.substr(0,6).c_str(), scndDat.substr(0,6).c_str() ) == 0)
-	 	return 4;
+	 	return 4; // check if 6 most significant digits are the same (.1^6 chance if not t4)
 
 	else return 2;
 }
 
-// comparison function to be used with built-in sorts
+// comparison function to be used with built-in sorts.  converts to float.
 bool compare (const Data * first, const Data * second){
-	return (((first)->data)<((second)->data));
+	return ( fastStr2flt( (first)->data.c_str() ) < fastStr2flt((second)->data.c_str() ) );
 }
 
 void sortDataList( list<Data *> & l ) {
