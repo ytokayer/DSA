@@ -110,7 +110,7 @@ Sorts numbers given by 4 types of input files
 */
 
 // global variables and function declarations
-int c; int ii, jj;
+int c, length; int ii, jj;
 
 int determineCase( list<Data *> & l );
 std::list<Data *>::iterator frst;
@@ -119,9 +119,13 @@ string frstDat, scndDat;
 
 bool comparestr(const Data * first, const Data * second);
 
-void arrayIt( list<Data *> & l );
+int arrayIt( list<Data *> & l );
 Data * arrayDat[1100000]; std::list<Data *>::iterator it;
 
+// void bubbleSort( int length );
+// Data * temp; bool swapped;
+
+void listIt( list<Data *> & l );
 
 // function to determine data case
 int determineCase( list<Data *> & l ){
@@ -143,25 +147,53 @@ int determineCase( list<Data *> & l ){
 	else return 2;
 }
 
-// compare function to compare strings representing numbers with same
-// number of digits to left of decimal
-
 bool comparestr (const Data * first, const Data * second){
 	return (((first)->data)<((second)->data));
 }
 
-void arrayIt( list<Data *> & l ){
-ii = 0;
-cout << "length is " << l.size() << endl;
-	for ( it = l.begin(); it != l.end(); ++it ){
-		arrayDat[ii] = *it;
-		++ii;
+// move elements from list to array, returns length
+int arrayIt( list<Data *> & l ){
+	ii = 0;
+		for ( it = l.begin(); it != l.end(); ++it ){
+			arrayDat[ii] = *it;
+			++ii;
+		}
+	return ii-1;
+}
+/*
+void bubbleSort ( int length ){
+	for ( ii = 0; ii < length; ++ii ){
+		swapped = false;
+		for ( jj = 0 ; jj < length; ++jj ){
+			if ( strncmp(&(arrayDat[jj]->data)[14],&(arrayDat[jj+1]->data)[14], 15) > 0){
+				temp = arrayDat[jj+1];
+				arrayDat[jj+1] = arrayDat[jj];
+				arrayDat[jj] = temp;
+				swapped = true;
+			}
+		}
+		if ( swapped != true )
+		break;
+		cout << "yo" << endl;
+	}		
+}
+*/
+// move elements from array to given list
+void listIt( list<Data *> & l ){
+it = l.begin();
+*it = arrayDat[0];
+	for ( ii = 1; ii<length; ++ii ){
+		++it;
+		*it = arrayDat[ii];
 	}
 }
 
+// strcmp(&str1[14], &str2[14])
 void sortDataList( list<Data *> & l ) {
 	// c = determineCase(l); //determine which case
 	
 	// put pointers into array
-	arrayIt(l);
+	length = arrayIt(l);
+	sort( &arrayDat[0], &arrayDat[length], comparestr );
+	listIt(l);
 }
