@@ -120,10 +120,12 @@ string frstDat, scndDat;
 bool comparestr(const Data * first, const Data * second);
 
 int arrayIt( list<Data *> & l );
-Data * arrayDat[1100000]; std::list<Data *>::iterator it;
+string arrayDat[1100000]; std::list<Data *>::iterator it;
 
-// void bubbleSort( int length );
-// Data * temp; bool swapped;
+void addLeadingZeroes( list<Data *> & l, const int c );
+string strDat; int missZeroes; int cc;
+
+void remLeadingZeroes( list<Data *> & l, const int c );
 
 void listIt( list<Data *> & l );
 
@@ -151,49 +153,63 @@ bool comparestr (const Data * first, const Data * second){
 	return (((first)->data)<((second)->data));
 }
 
-// move elements from list to array, returns length
+// moves dereferenced elements from list to array, returns length
 int arrayIt( list<Data *> & l ){
 	ii = 0;
 		for ( it = l.begin(); it != l.end(); ++it ){
-			arrayDat[ii] = *it;
+			arrayDat[ii] = (*it)->data;
 			++ii;
 		}
 	return ii-1;
 }
-/*
-void bubbleSort ( int length ){
-	for ( ii = 0; ii < length; ++ii ){
-		swapped = false;
-		for ( jj = 0 ; jj < length; ++jj ){
-			if ( strncmp(&(arrayDat[jj]->data)[14],&(arrayDat[jj+1]->data)[14], 15) > 0){
-				temp = arrayDat[jj+1];
-				arrayDat[jj+1] = arrayDat[jj];
-				arrayDat[jj] = temp;
-				swapped = true;
-			}
-		}
-		if ( swapped != true )
-		break;
-		cout << "yo" << endl;
-	}		
-}
-*/
-// move elements from array to given list
-void listIt( list<Data *> & l ){
-it = l.begin();
-*it = arrayDat[0];
-	for ( ii = 1; ii<length; ++ii ){
-		++it;
-		*it = arrayDat[ii];
+
+void addLeadingZeroes( list<Data *> & l ){
+	if ( c == 1 || c == 2 )
+		cc = 20;
+	else
+		cc = 3;
+	for ( it=l.begin(); it != l.end(); ++it){
+		strDat = (*it)->data;
+		missZeroes = cc - strDat.find("."); // number of zeroes to add
+		for ( ii = missZeroes; ii != 0; --ii )
+			(*it)->data = "0" + (*it)->data; // add appropriate # of 0's
 	}
 }
 
+void remLeadingZeroes( list<Data *> & l ){
+	if ( c == 1 || c == 2 ){
+		for ( it=l.begin(); it != l.end(); ++it){
+			while( (*it)->data[0] == 48 ) // remove appropriate number of zeroes
+				(*it)->data.erase((*it)->data.begin());
+		}
+	}
+	else{
+		for ( it=l.begin(); it != l.end(); ++it){
+			while( (*it)->data[0] == 48 && (*it)->data[1] != 46 ) // remove appropriate number of zeroes
+				(*it)->data.erase((*it)->data.begin());
+		}
+	}
+}
+
+// move references to elements from array to given list
+void listIt( list<Data *> & l ){
+it = l.begin();
+(*it)->data = arrayDat[0];
+	for ( ii = 1; ii<length; ++ii ){
+		++it;
+		(*it)->data = arrayDat[ii];
+	}
+}
+
+
 // strcmp(&str1[14], &str2[14])
 void sortDataList( list<Data *> & l ) {
-	// c = determineCase(l); //determine which case
+	c = determineCase(l); //determine which case
 	
 	// put pointers into array
+	addLeadingZeroes(l);
 	length = arrayIt(l);
-	sort( &arrayDat[0], &arrayDat[length], comparestr );
+	sort( &arrayDat[0], &arrayDat[length]);
 	listIt(l);
+	remLeadingZeroes(l);
 }
